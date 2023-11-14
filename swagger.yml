@@ -1,0 +1,559 @@
+openapi: 3.0.3
+info:
+  title: Event Management API
+  description: API for managing events, editions, and activities
+  version: 1.0.0
+servers:
+  - url: https://example.com/api/v1
+    description: Production server
+tags:
+  - name: admin
+    description: Endpoints for administrative tasks
+  - name: organizer
+    description: Endpoints for organizers
+  - name: user
+    description: Endpoints for general users
+paths:
+  /admin/eventos:
+    post:
+      tags:
+        - admin
+      summary: Register an event
+      operationId: cadastrarEvento
+      requestBody:
+        description: Event data to be registered
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Evento'
+      responses:
+        '200':
+          description: Event registered successfully
+        '400':
+          description: Invalid data provided
+          
+  /admin/eventos/{eventoId}:
+    delete:
+      tags:
+        - admin
+      summary: Remove an event
+      operationId: removerEvento
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event to be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Event removed successfully
+        '404':
+          description: Event not found
+
+  /admin/eventos/{eventoId}/edicoes:
+    post:
+      tags:
+        - admin
+      summary: Register an edition for an event
+      operationId: cadastrarEdicao
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event for which the edition is to be registered
+          schema:
+            type: string
+      requestBody:
+        description: Edition data to be registered
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Edicao'
+      responses:
+        '200':
+          description: Edition registered successfully
+        '400':
+          description: Invalid data provided
+
+  /admin/eventos/{eventoId}/edicoes/{edicaoId}:
+    put:
+      tags:
+        - admin
+      summary: Edit an edition of an event
+      operationId: editarEdicao
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event to which the edition belongs
+          schema:
+            type: string
+        - name: edicaoId
+          in: path
+          required: true
+          description: ID of the edition to be edited
+          schema:
+            type: string
+      requestBody:
+        description: Updated edition data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Edicao'
+      responses:
+        '200':
+          description: Edition edited successfully
+        '400':
+          description: Invalid data provided
+    delete:
+      tags:
+        - admin
+      summary: Remove an edition of an event
+      operationId: removerEdicao
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event to which the edition belongs
+          schema:
+            type: string
+        - name: edicaoId
+          in: path
+          required: true
+          description: ID of the edition to be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Edition removed successfully
+        '404':
+          description: Edition not found
+  /admin/eventos/{eventoId}/edicoes/{edicaoId}/organizador:
+    put:
+      tags:
+        - admin
+      summary: Assign an organizer to an edition
+      operationId: configurarOrganizadorEdicao
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event to which the edition belongs
+          schema:
+            type: string
+        - name: edicaoId
+          in: path
+          required: true
+          description: ID of the edition to which the organizer is to be assigned
+          schema:
+            type: string
+      requestBody:
+        description: Organizer data to be assigned
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: Organizer assigned successfully
+        '400':
+          description: Invalid data provided
+  /organizador/edicoes/{edicaoId}:
+    put:
+      tags:
+        - organizer
+      summary: Edit edition data
+      operationId: editarDadosEdicao
+      parameters:
+        - name: edicaoId
+          in: path
+          required: true
+          description: ID of the edition to be edited
+          schema:
+            type: string
+      requestBody:
+        description: Updated edition data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Edicao'
+      responses:
+        '200':
+          description: Edition data edited successfully
+        '400':
+          description: Invalid data provided
+
+  /organizador/espacos:
+    post:
+      tags:
+        - organizer
+      summary: Register an available space
+      operationId: cadastrarEspaco
+      requestBody:
+        description: Space data to be registered
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Espaco'
+      responses:
+        '200':
+          description: Space registered successfully
+        '400':
+          description: Invalid data provided
+
+  /organizador/espacos/{espacoId}:
+    put:
+      tags:
+        - organizer
+      summary: Edit an available space
+      operationId: editarEspaco
+      parameters:
+        - name: espacoId
+          in: path
+          required: true
+          description: ID of the space to be edited
+          schema:
+            type: string
+      requestBody:
+        description: Updated space data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Espaco'
+      responses:
+        '200':
+          description: Space edited successfully
+        '400':
+          description: Invalid data provided
+    delete:
+      tags:
+        - organizer
+      summary: Remove an available space
+      operationId: removerEspaco
+      parameters:
+        - name: espacoId
+          in: path
+          required: true
+          description: ID of the space to be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Space removed successfully
+        '404':
+          description: Space not found
+
+  /organizador/atividades/{atividadeId}:
+    delete:
+      tags:
+        - organizer
+      summary: Remove an activity
+      operationId: removerAtividade
+      parameters:
+        - name: atividadeId
+          in: path
+
+          required: true
+          description: ID of the activity to be removed
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activity removed successfully
+        '404':
+          description: Activity not found
+
+    put:
+      tags:
+        - organizer
+      summary: Edit an activity
+      operationId: editarAtividade
+      parameters:
+        - name: atividadeId
+          in: path
+          required: true
+          description: ID of the activity to be edited
+          schema:
+            type: string
+      requestBody:
+        description: Updated activity data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividade'
+      responses:
+        '200':
+          description: Activity edited successfully
+        '400':
+          description: Invalid data provided
+
+  /organizador/atividades:
+    post:
+      tags:
+        - organizer
+      summary: Register an activity
+      operationId: cadastrarAtividade
+      requestBody:
+        description: Activity data to be registered
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividade'
+      responses:
+        '200':
+          description: Activity registered successfully
+        '400':
+          description: Invalid data provided
+
+  /users:
+    post:
+      tags:
+        - user
+      summary: User registration
+      operationId: cadastrarUsuario
+      requestBody:
+        description: User data to be registered
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '200':
+          description: User registered successfully
+        '400':
+          description: Invalid data provided
+
+  /eventos/{eventoId}/edicoes/{edicaoId}/pagina:
+    get:
+      tags:
+        - user
+      summary: View web page
+      operationId: visualizarPagina
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event
+          schema:
+            type: string
+        - name: edicaoId
+          in: path
+          required: true
+          description: ID of the edition
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Web page viewed successfully
+        '404':
+          description: Page not found
+
+  /eventos/{eventoId}/edicoes/{edicaoId}/atividades/{atividadeId}:
+    get:
+      tags:
+        - user
+      summary: View activity details
+      operationId: visualizarDetalhesAtividade
+      parameters:
+        - name: eventoId
+          in: path
+          required: true
+          description: ID of the event
+          schema:
+            type: string
+        - name: edicaoId
+          in: path
+          required: true
+          description: ID of the edition
+          schema:
+            type: string
+        - name: atividadeId
+          in: path
+          required: true
+          description: ID of the activity
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activity details viewed successfully
+        '404':
+          description: Activity not found
+
+  /users/{userId}/favoritos:
+    post:
+      tags:
+        - user
+      summary: Favorite an activity
+      operationId: favoritarAtividade
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user
+          schema:
+            type: string
+      requestBody:
+        description: Activity data to be favorited
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Atividade'
+      responses:
+        '200':
+          description: Activity favorited successfully
+        '400':
+          description: Invalid data provided
+
+  /users/{userId}/favoritos/{atividadeId}:
+    delete:
+      tags:
+        - user
+      summary: Unfavorite an activity
+      operationId: desfavoritarAtividade
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID of the user
+          schema:
+            type: string
+        - name: atividadeId
+          in: path
+          required: true
+          description: ID of the activity to be unfavorited
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Activity unfavorited successfully
+        '404':
+          description: Activity not found
+
+
+
+# ... continue with other paths and definitions
+
+components:
+  schemas:
+    Evento:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        sigla:
+          type: string
+        descricao:
+          type: string
+      required:
+        - nome
+        - sigla
+        - descricao
+
+    Usuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        email:
+          type: string
+        nome:
+          type: string
+        afiliacao:
+          type: string
+      required:
+        - login
+        - email
+        - nome
+        - afiliacao
+
+    Edicao:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        numero:
+          type: integer
+        ano:
+          type: integer
+        data_inicial:
+          type: string
+          format: date
+        data_final:
+          type: string
+          format: date
+        cidade:
+          type: string
+      required:
+        - numero
+        - ano
+        - data_inicial
+        - data_final
+        - cidade
+
+    Atividade:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        tipo:
+          type: string
+        descricao:
+          type: string
+        data:
+          type: string
+          format: date
+        horario_inicial:
+          type: string
+          format: time
+        horario_final:
+          type: string
+          format: time
+      required:
+        - nome
+        - tipo
+        - descricao
+        - data
+        - horario_inicial
+        - horario_final
+
+    Espaco:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        localizacao:
+          type: string
+        capacidade:
+          type: integer
+        recursos:
+          type: string
+      required:
+        - nome
+        - localizacao
+        - capacidade
+        - recursos
