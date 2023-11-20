@@ -1,19 +1,23 @@
 # Event Management API
 
-## Overview
+## Geral
 
-Advanced web development class assessment. It's an API specification, done according to requirements and trying to follow RESTful principles.
+Este projeto visa produzir uma API RESTful para um sistema que visa apoiar a organização de eventos. Foi produzido para atender um trabalho da disciplina Desenvolvimento Web Avançado, da Universidade Federal Fluminense, no semestre 2023.2.
 
-The endpoints are tagged according to the actors that have access to them, which means tha the same endpoint can be available to more than one actor, with some method restrictions. For example, some GET requests be made by both users and admins, but POST and DELETE are reserved for admins.
+Grupo formado por: Caique Guimarães, Marcos Zina, Natália Ignácio e Ruan Pablo.
 
-## Getting Started
+O projeto será desenvolvido em Java. A especificação da API foi desenvolvida utilizando o Swagger Editor, seguindo uma versão da OpenAPI Specification.
 
-We recommend using [SwaggerHub](https://swagger.io/tools/swaggerhub), with its editor and mock server for testing.
+Na especificação da API, os endpoints receberam tags de acordo com os atores que devem ter acesso a eles. Alguns endpoints podem ser acessados por mais de um ator, com restrições nos métodos disponíveis para cada um. Por exemplo, algumas requisições HTTP GET podem ser feitas por usuários gerais e administradores, mas POST e DELETE são reservados aos administradores.
 
-## Authentication
+## Começando
 
-This API uses HTTP basic authentication for most of its endpoints. Ensure to include valid credentials in your requests.
+Para visualizar a documentação da API, baixe o arquivo [swagger.yml](https://github.com/apieceofCAKE/event-management-api/blob/master/swagger.yml) e utilize o [Swagger Editor](https://editor-next.swagger.io/) para executar o arquivo corretamente.
 
-## License
+## Autenticação
+
+Essa API utiliza *HTTP basic authentication* para a maioria de seus endpoints. Inclua credenciais válidas em suas requisições.
+
+## Licença
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
